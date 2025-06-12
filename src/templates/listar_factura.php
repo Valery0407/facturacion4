@@ -1,15 +1,12 @@
 <?php
-// Conexión directa a la base de datos
-$mysqli = new mysqli("localhost", "root", "", "facturacion");
+require 'conexion.php';
 
-if ($mysqli->connect_error) {
-    die("Error de conexión: " . $mysqli->connect_error);
-}
 
-// Consultar todas las facturas
-$sql = "SELECT * FROM facturas";
+// Obtener todos los empleados
+$sql = "SELECT * FROM factura";
 $resultado = $mysqli->query($sql);
 ?>
+
 
 <!DOCTYPE html>
 <html lang="es">
@@ -122,7 +119,7 @@ $resultado = $mysqli->query($sql);
                     <?php while ($row = $resultado->fetch_assoc()): ?>
                         <tr>
                             <td><?php echo htmlspecialchars($row['id_factura']); ?></td>
-                            <td><?php echo htmlspecialchars($row['fecha']); ?></td>
+                            <td><?php echo htmlspecialchars($row['fecha_factura']); ?></td>
                             <td><?php echo htmlspecialchars($row['id_cliente']); ?></td>
                             <td><?php echo htmlspecialchars($row['total']); ?></td>
                             <td>
