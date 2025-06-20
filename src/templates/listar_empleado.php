@@ -25,9 +25,10 @@ body {
 }
 
 .container {
-    margin-top: 40px;
+    margin-top: 10px;
     background-color: #fff0f6;
     padding: 30px;
+    padding-top: 10px;
     border-radius: 15px;
     box-shadow: 0 10px 25px rgba(255, 182, 193, 0.4);
 }
@@ -143,7 +144,7 @@ body {
                             <td>
                                 
                                 <a href="template.php?page=editar_empleado&amp;cedula=<?php echo urlencode($row['cedula']); ?>"class="btn btn-warning btn-sm">Editar</a>
-                                <a href="template.php?page=eliminar_empleado.php?cedula=<?php echo urlencode($row['cedula']); ?>" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de eliminar este empleado?');">Eliminar</a>
+                                <a href="template.php?page=eliminar_empleado&cedula=<?php echo urlencode($row['cedula']); ?>" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de eliminar este empleado?');">Eliminar</a> <!--cedula estaba escrito dos veces, "eliminar_empleado&cedula=cedula", por eso salía que no encontraba la cedula o había error allí-->
                             </td>
                         </tr>
                     <?php endwhile; ?>

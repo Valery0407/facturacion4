@@ -47,7 +47,7 @@ $mysqli->close();
     <div class="container">
         <div class="row" style="text-align:center; margin-top:20px;">
             <h3><?php echo $mensaje; ?></h3>
-            <a href="listar_empleados.php" class="btn btn-primary">Volver a la lista</a>
+            <a href="template.php?page=listar_empleado" class="btn btn-primary">Volver a la lista</a><!--Cambié la ruta esa mal de listar_empleados.php-->
         </div>
     </div>
 </body>

@@ -57,6 +57,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['cedula'], $_POST['nomb
 
             if ($stmt_update->execute()) {
                 $mensaje = "✅ ¡Empleado actualizado exitosamente!";
+                // Volver a cargar los datos actualizados del empleado
+                $sql = "SELECT * FROM empleados WHERE cedula = ?";
+                $stmt = $mysqli->prepare($sql);
+                $stmt->bind_param("s", $cedula);
+                $stmt->execute();
+                $resultado = $stmt->get_result();
+                $empleado = $resultado->fetch_assoc();
+                $stmt->close();
+                
             } else {
                 $mensaje = "❌ Error al actualizar: " . $stmt_update->error;
             }
@@ -77,35 +86,112 @@ $mysqli->close();
     <title>Editar Empleado</title>
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <style>
+    body {
+        background-color: #fff0f5;
+        font-family: 'Segoe UI', sans-serif;
+        color: #333;
+        margin: 0;
+        padding: 0;
+    }
+
+    .form-container {
+        max-width: 600px;
+        margin: 50px auto;
+        margin-top: 10px;
+        padding: 30px;
+        padding-top:10px;
+        background-color: #ffffff;
+        border: 2px solid #f8c0d8;
+        border-radius: 12px;
+        box-shadow: 0 0 10px rgba(255, 182, 193, 0.3);
+    }
+
+    h2 {
+        text-align: center;
+        color: #cc2b5e;
+        margin-bottom: 20px;
+        font-weight: bold;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 6px;
+        color: #b03a67;
+        font-weight: 500;
+    }
+
+    input, select {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #e8a5b9;
+        border-radius: 6px;
+        background-color: #fffafc;
+        color: #333;
+    }
+
+    input:focus, select:focus {
+        outline: none;
+        border-color: #ff7ba9;
+        box-shadow: 0 0 4px #ffb6c1;
+    }
+
+    input[type="submit"] {
+        background-color: #ff6f91;
+        color: white;
+        border: none;
+        font-weight: bold;
+        font-size: 16px;
+        padding: 12px;
+        border-radius: 5px;
+        transition: background 0.3s;
+    }
+
+    input[type="submit"]:hover {
+        background-color: #e05578;
+    }
+
+    .btn-secondary {
+        display: inline-block;
+        margin-top: 10px;
+        background-color: #cccccc;
+        color: #333;
+        padding: 10px 14px;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background 0.3s;
+    }
+
+    .btn-secondary:hover {
+        background-color: #bbbbbb;
+    }
+
+    .alert {
+        padding: 12px;
+        border-radius: 5px;
+        margin-bottom: 20px;
+        font-weight: bold;
+    }
+
+    .alert-info {
+        background-color: #fde1ec;
+        color: #5a0b2f;
+    }
+
+    .alert-danger {
+        background-color: #f8d7da;
+        color: #721c24;
+    }
+
+    @media (max-width: 600px) {
         .form-container {
-            max-width: 500px;
-            margin: 20px auto;
+            margin: 20px;
             padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
         }
-        .form-container label {
-            display: block;
-            margin-bottom: 5px;
-        }
-        .form-container input, .form-container select {
-            width: 100%;
-            padding: 8px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        .form-container input[type="submit"] {
-            background-color: #007bff;
-            color: white;
-            border: none;
-            padding: 10px;
-            cursor: pointer;
-        }
-        .form-container input[type="submit"]:hover {
-            background-color: #0056b3;
-        }
-    </style>
+    }
+</style>
+
+
 </head>
 <body>
     <div class="form-container">
@@ -114,7 +200,7 @@ $mysqli->close();
             <div class="alert alert-info"><?php echo $mensaje; ?></div>
         <?php endif; ?>
         <?php if ($empleado): ?>
-            <form action="editar_empleado.php" method="POST">
+            <form action="template.php?page=editar_empleado" method="POST">
                 <input type="hidden" name="cedula" value="<?php echo htmlspecialchars($empleado['cedula']); ?>">
                 
                 <label for="nombre">Nombre:</label>
@@ -137,7 +223,7 @@ $mysqli->close();
         <?php else: ?>
             <div class="alert alert-danger">No se encontró el empleado.</div>
         <?php endif; ?>
-        <a href="listar_empleados.php" class="btn btn-secondary mt-3">Volver a la lista</a>
+        <a href="template.php?page=listar_empleado" class="btn btn-secondary mt-3">Volver a la lista</a>
     </div>
 </body>
 </html>

@@ -15,7 +15,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['cedula'], $_POST['nomb
     } else {
         // Verificar si ya existe el empleado
         $sql_check = "SELECT 1 FROM empleados WHERE cedula = ? OR nombre = ?";
-        $stmt = $conn->prepare($sql_check);
+        $stmt = $mysqli->prepare($sql_check); //aquí estaba $conn pero en conexion.php no se usaba eso, sino $mysql, por eso tuve que cambiarlo a mysql que es la conexión que se creó.
         $stmt->bind_param("ss", $cedula, $nombre);
         $stmt->execute();
         $stmt->store_result();
@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['cedula'], $_POST['nomb
         } else {
             // Insertar el nuevo empleado
             $sql_insert = "INSERT INTO empleados (cedula, nombre, correo, contrasena, rol) VALUES (?, ?, ?, ?, ?)";
-            $stmt = $conn->prepare($sql_insert);
+            $stmt = $mysqli->prepare($sql_insert);//aquí estaba $conn pero en conexion.php no se usaba eso, sino $mysql, por eso tuve que cambiarlo a mysql que es la conexión que se creó.
             $stmt->bind_param("sssss", $cedula, $nombre, $correo, $contrasena, $rol);
 
             if ($stmt->execute()) {
@@ -37,6 +37,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['cedula'], $_POST['nomb
         $stmt->close();
     }
 
-    echo "<script>alert('$mensaje'); window.location.href='template.php?page=empleados';</script>";
+    echo "<script>alert('$mensaje'); window.location.href='template.php?page=listar_empleado';</script>";//Cambié page=empleados por page=listar_empleado, ya que así está en template.php y así se llama la página de listar empleados.
 }
 ?>
