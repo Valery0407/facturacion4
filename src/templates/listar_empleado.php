@@ -36,7 +36,7 @@ body {
 /* Título */
 .h2 {
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 5px;
     color: #d63384;
 }
 
@@ -44,7 +44,7 @@ body {
 .btn-contenedor {
     display: flex;
     justify-content: flex-end;
-    margin-bottom: 25px;
+    margin-bottom: 15px;
 }
 
 /* Botón de registro */

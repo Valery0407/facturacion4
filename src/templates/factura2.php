@@ -85,17 +85,188 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['crear_factura'])) {
     <title>Sistema de Facturación</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
-        table { border-collapse: collapse; margin-top: 15px; }
-        th, td { padding: 8px 12px; border: 1px solid #aaa; }
-        input[type="text"] { padding: 5px; width: 220px; }
-        .producto-row { margin-bottom: 10px; }
-        .producto-row select, .producto-row input { margin-right: 10px; }
-        .subtotal, .precio-unitario { display: inline-block; width: 80px; }
-    </style>
+    body {
+        background: linear-gradient(to bottom, #ffe6f0, #ffd6ea);
+        font-family: 'Segoe UI', sans-serif;
+        margin: 0;
+        color: #4a004e;
+    }
+
+    h2 {
+        text-align: center;
+        color:rgb(255, 255, 255);
+        margin-bottom: 10px;
+    }
+
+    h3 {
+        text-align: center;
+        color: #d63384;
+        margin-top: 20px;
+    }
+
+
+    form {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    input[type="text"], input[type="number"], select {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        margin: 5px;
+        width: 220px;
+    }
+
+    button {
+        background: linear-gradient(135deg, #e83e8c, #ff69b4);
+        color: white;
+        font-weight: bold;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: transform 0.2s ease, background 0.3s ease;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        margin: 5px;
+    }
+
+    button:hover {
+        background: linear-gradient(135deg, #d63384, #ff5ca2);
+        transform: scale(1.05);
+    }
+    
+
+    table {
+        border-collapse: collapse;
+        width: 90%;
+        margin: 0 auto 20px auto;
+        background-color: white;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(255, 105, 135, 0.2);
+    }
+
+    th {
+        background-color: #ffb6c1;
+        color: white;
+        padding: 10px;
+    }
+
+    td {
+        text-align: center;
+        padding: 10px;
+        font-size: 14px;
+        border-bottom: 1px solid #f0f0f0;
+    }
+
+    .producto-row {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 10px;
+        flex-wrap: wrap;
+    }
+
+    .producto-row select, .producto-row input {
+        margin: 5px;
+    }
+
+    .subtotal, .precio-unitario {
+        display: inline-block;
+        width: 90px;
+        font-weight: bold;
+        color: #e83e8c;
+    }
+
+    #agregar-producto {
+        margin-top: 10px;
+        background: linear-gradient(135deg, #ffa0c2, #ff69b4);
+    }
+
+    #agregar-producto:hover {
+        background: linear-gradient(135deg, #ff6fa5, #ff4d91);
+    }
+
+    #total-factura {
+        font-size: 18px;
+        color: #b8005d;
+        font-weight: bold;
+    }
+
+    .alert {
+        background-color: #fce4ec;
+        color: #880e4f;
+        border: 1px solid #f8bbd0;
+        padding: 10px;
+        width: 80%;
+        margin: 10px auto;
+        border-radius: 10px;
+        text-align: center;
+    }
+
+    @media (max-width: 600px) {
+        input[type="text"], input[type="number"], select {
+            width: 90%;
+        }
+
+        .producto-row {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .subtotal, .precio-unitario {
+            width: auto;
+            margin-top: 5px;
+        }
+    }
+    .cliente-card-horizontal {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    background-color: #fff7fa;
+    border: 1px solid #f7c7d4;
+    border-radius: 12px;
+    padding: 15px 20px;
+    margin-top: 15px;
+    box-shadow: 0 2px 8px rgba(255, 182, 193, 0.2);
+    color: #4a004e;
+    font-family: 'Segoe UI', sans-serif;
+    align-items: center;
+}
+
+.cliente-card-horizontal div {
+    font-size: 15px;
+    white-space: nowrap;
+}
+
+.form-cambiar-cliente {
+    margin-left: auto;
+}
+
+.form-cambiar-cliente button {
+    background-color: #ffb6c1;
+    color: #fff;
+    padding: 8px 14px;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.form-cambiar-cliente {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+}
+
+
+</style>
+
 </head>
 <body>
-
-<h2>Sistema de Facturación</h2>
 
 <!-- Buscador de Cliente -->
 <h3>Buscar Cliente</h3>
@@ -124,9 +295,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['crear_factura'])) {
                     <td><?= $c['email'] ?></td>
                     <td><?= $c['telefono'] ?></td>
                     <td>
-                        <form method="GET">
+                        <form action="template.php" method="GET">
+                            <!--Aquí agregué al action template.php para mantener la página ahí, no entendí muy bien, esto dijo chatgpt:
+            En el formulario de selección de cliente, estás usando method="GET" pero no estás reteniendo el parámetro page en la URL, así que al hacer submit, el navegador solo pone ?id_cliente=... y te saca del contexto de template.php?page=factura2.-->
                             <input type="hidden" name="id_cliente" value="<?= $c['id_cliente'] ?>">
                             <button type="submit">Seleccionar</button>
+                            <input type="hidden" name="page" value="factura2">
+            
+            <!--Agrega manualmente el parámetro page=factura2 en la acción del formulario GET. Con eso, cuando des clic en "Seleccionar", seguirás en la página factura2 con el cliente seleccionado correctamente.-->
                         </form>
                     </td>
                 </tr>
@@ -138,13 +314,19 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['crear_factura'])) {
 <?php endif; ?>
 
 <?php if ($cliente): ?>
+    <!--cambié el orden que había para que los datos del cliente se muestren de manera organizada en una fila-->
     <h3>Cliente Seleccionado</h3>
-    <p><strong>Nombre:</strong> <?= $cliente['nombre'] . ' ' . $cliente['apellido'] ?></p>
-    <p><strong>Email:</strong> <?= $cliente['email'] ?></p>
-    <p><strong>Teléfono:</strong> <?= $cliente['telefono'] ?></p>
-    <form method="GET">
+<div class="cliente-card-horizontal">
+    <div><strong>ID:</strong> <?= htmlspecialchars($cliente['id_cliente']) ?></div>
+    <div><strong>Nombre:</strong> <?= htmlspecialchars($cliente['nombre'] . ' ' . $cliente['apellido']) ?></div>
+    <div><strong>Email:</strong> <?= htmlspecialchars($cliente['email']) ?></div>
+    <div><strong>Teléfono:</strong> <?= htmlspecialchars($cliente['telefono']) ?></div>
+    <form action="template.php" method="GET" class="form-cambiar-cliente">
+        <input type="hidden" name="id_cliente" value="">
+        <input type="hidden" name="page" value="factura2">
         <button type="submit">Cambiar Cliente</button>
     </form>
+</div>
 
     <!-- Formulario de Factura -->
     <h3>Crear Factura</h3>

@@ -19,55 +19,50 @@ require 'conexion.php';
 }
 
 .form-container {
-    max-width: 600px;
-    margin: 50px auto;
-    padding: 30px;
+    max-width: 420px;
+    margin: 30px auto;
+    padding: 20px 25px;
     background-color: #ffffff;
-    border: 2px solid #f8c0d8;
-    border-radius: 12px;
-    box-shadow: 0 0 12px rgba(255, 182, 193, 0.3);
+    border: 1.5px solid #f3aac4;
+    border-radius: 10px;
+    box-shadow: 0 0 6px rgba(255, 182, 193, 0.3);
 }
 
-h2 {
-    text-align: center;
-    color: #cc2b5e;
-    margin-bottom: 25px;
-    font-weight: bold;
-    font-size: 24px;
-}
+
 
 label {
     display: block;
-    margin-bottom: 6px;
+    margin-bottom: 4px;
     color: #b03a67;
     font-weight: 500;
+    font-size: 14px;
 }
 
 input, select {
     width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
+    padding: 8px 10px;
+    margin-bottom: 12px;
     border: 1px solid #e8a5b9;
-    border-radius: 6px;
+    border-radius: 5px;
     background-color: #fffafc;
     color: #333;
-    font-size: 15px;
+    font-size: 14px;
 }
 
 input:focus, select:focus {
     outline: none;
-    border-color: #ff7ba9;
-    box-shadow: 0 0 4px #ffb6c1;
+    border-color: #ff8db5;
+    box-shadow: 0 0 3px #ffb6c1;
 }
 
 input[type="submit"] {
     background-color: #ff6f91;
     color: white;
     border: none;
-    font-weight: bold;
-    font-size: 16px;
-    padding: 12px;
-    border-radius: 6px;
+    font-weight: 600;
+    font-size: 15px;
+    padding: 10px;
+    border-radius: 5px;
     transition: background 0.3s ease;
 }
 
@@ -75,22 +70,14 @@ input[type="submit"]:hover {
     background-color: #e05578;
 }
 
-a {
-    display: inline-block;
-    margin-top: 15px;
-    color: #b03a67;
-    text-decoration: none;
-    font-weight: 500;
-}
-
 a:hover {
     text-decoration: underline;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 500px) {
     .form-container {
         margin: 20px;
-        padding: 20px;
+        padding: 15px;
     }
 }
 
@@ -121,7 +108,7 @@ a:hover {
           
             <input type="submit" value="Registrar empleado">
         </form>
-        <a href="template.php?page=listar_empleado.php">Ver lista de empleados</a>
+        <a href="template.php?page=listar_empleado">Ver lista de empleados</a>
     </div>
 </body>
 </html>

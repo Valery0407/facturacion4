@@ -108,7 +108,7 @@ $mysqli->close();
 
     h2 {
         text-align: center;
-        color: #cc2b5e;
+        color:rgb(255, 255, 255);
         margin-bottom: 20px;
         font-weight: bold;
     }

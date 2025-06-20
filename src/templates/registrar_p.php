@@ -42,25 +42,98 @@ $conn->close();
     <meta charset="UTF-8">
     <title>Registrar Producto</title>
     <link rel="stylesheet" href="../css/style.css">
+    <style>
+        <style>
+/* === Estilos solo para el formulario de registro de productos === */
+h1 {
+    font-size: 24px;
+    color: #d63384;
+    text-align: center;
+    margin-bottom: 20px;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+form {
+    max-width: 420px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff0f5;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(255, 192, 203, 0.3);
+    font-family: 'Segoe UI', sans-serif;
+    color: #4a004e;
+}
+
+label {
+    font-weight: 500;
+    display: block;
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+input[type="text"],
+input[type="number"],
+select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #f5b6d2;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    background-color: #fff9fb;
+    font-size: 14px;
+}
+
+button[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    background: linear-gradient(to right, #ff7eb9, #ff65a3);
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+button[type="submit"]:hover {
+    background: linear-gradient(to right, #ff5d9e, #ff4d88);
+}
+
+p strong {
+    display: block;
+    text-align: center;
+    background-color: #fce4ec;
+    padding: 10px;
+    border-radius: 8px;
+    color: #b8005d;
+    margin: 10px auto;
+    max-width: 400px;
+}
+</style>
+
+    </style>
 </head>
 <body>
-    <h1>Registrar Producto</h1>
+    
 
     <?php if (!empty($mensaje)) : ?>
         <p><strong><?php echo $mensaje; ?></strong></p>
     <?php endif; ?>
 
     <form method="POST" action="">
-        <label>Nombre:</label><br>
-        <input type="text" name="nombre" required><br><br>
+        <h2>Registrar Producto</h1>
 
-        <label>Precio:</label><br>
-        <input type="number" name="precio" step="0.01" required><br><br>
+        <label>Nombre:</label>
+        <input type="text" name="nombre" required>
 
-        <label>Stock:</label><br>
-        <input type="number" name="stock" min="0" required><br><br>
+        <label>Precio:</label>
+        <input type="number" name="precio" step="0.01" required>
 
-        <label>Categoría:</label><br>
+        <label>Stock:</label>
+        <input type="number" name="stock" min="0" required>
+
+        <label>Categoría:</label>
         <select name="categoria_id" required>
             <option value="">Selecciona una categoría</option>
             <?php foreach ($resultado as $row): ?>
@@ -68,7 +141,7 @@ $conn->close();
                     <?php echo htmlspecialchars($row['nombre']); ?>
                 </option>
             <?php endforeach; ?>
-        </select><br><br>
+        </select>
 
         <button type="submit">Registrar</button>
     </form>
